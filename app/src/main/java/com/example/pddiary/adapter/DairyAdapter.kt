@@ -1,38 +1,31 @@
 package com.example.pddiary.adapter
 
-import android.app.AlertDialog
 import android.graphics.Color
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
-import android.widget.DatePicker
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pddiary.R
-import com.example.pddiary.models.DairyButtonModel
 import com.example.pddiary.models.DairyListItem
 import com.example.pddiary.models.DairyModel
-import com.example.pddiary.models.HeaderModel
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 
-class DairyAdapter(private val list: MutableList<DairyListItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DairyAdapter(private val list: ArrayList<DairyModel>) : RecyclerView.Adapter<DairyAdapter.ItemViewHolder>() {
 
-    companion object {
-        val HEADER = 1
-        val ROW = 2
-        val BUTTON = 3
-    }
+//    companion object {
+//        val HEADER = 1
+//        val ROW = 2
+//        val BUTTON = 3
+//    }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    }
+//    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//
+//    }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val time: TextView = itemView.findViewById(R.id.time)
@@ -42,191 +35,133 @@ class DairyAdapter(private val list: MutableList<DairyListItem>) : RecyclerView.
         val onWithoutTroublesome: CheckBox = itemView.findViewById(R.id.on_without_troublesome)
         val off: CheckBox = itemView.findViewById(R.id.off)
 //        val measurementSlider: Slider = itemView.findViewById(R.id.measurement_slider)
-        val measurementInput: TextInputEditText = itemView.findViewById(R.id.measurement_input)
+        val measurementInputSeekBar: SeekBar = itemView.findViewById((R.id.measurement_input_seek_bar))
         val measurementInputLayout: TextInputLayout = itemView.findViewById(R.id.measurement_input_layout) // Added this line
     }
 
-    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val button: Button = itemView.findViewById(R.id.dairy_save_button)
+//    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val button: Button = itemView.findViewById(R.id.dairy_save_button)
+//    }
+
+//    override fun getItemViewType(position: Int): Int {
+//        return when (list[position]) {
+//            is HeaderModel -> HEADER
+//            is DairyModel -> ROW
+//            is DairyButtonModel -> BUTTON
+//            else -> throw IllegalArgumentException("unsupported type is sent to dairyAdapter")
+//        }
+//    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_dairy_row, parent, false))
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (list[position]) {
-            is HeaderModel -> HEADER
-            is DairyModel -> ROW
-            is DairyButtonModel -> BUTTON
-            else -> throw IllegalArgumentException("unsupported type is sent to dairyAdapter")
-        }
-    }
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val item = list[position]
+        // Alternate row colors
+        val backgroundColor = if (position % 2 == 0) Color.WHITE else Color.parseColor("#EAEAEA")
+        holder.itemView.setBackgroundColor(backgroundColor)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            HEADER -> HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_dairy_headings, parent, false))
-            ROW -> ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_dairy_row, parent, false))
-            BUTTON -> ButtonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_dairy_save_button, parent, false))
-            else -> throw IllegalArgumentException("unsupported type is sent to dairyAdapter")
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = list[position]) {
-            is DairyModel -> {
-                val mHolder = holder as ItemViewHolder
-
-                // Alternate row colors
-                val backgroundColor = if (position % 2 == 0) Color.RED else Color.WHITE
-                mHolder.itemView.setBackgroundColor(backgroundColor)
-
-                mHolder.asleep.setOnCheckedChangeListener(null)
-                mHolder.on.setOnCheckedChangeListener(null)
-                mHolder.onWithTroublesome.setOnCheckedChangeListener(null)
-                mHolder.onWithoutTroublesome.setOnCheckedChangeListener(null)
-                mHolder.off.setOnCheckedChangeListener(null)
+        holder.asleep.setOnCheckedChangeListener(null)
+        holder.on.setOnCheckedChangeListener(null)
+        holder.onWithTroublesome.setOnCheckedChangeListener(null)
+        holder.onWithoutTroublesome.setOnCheckedChangeListener(null)
+        holder.off.setOnCheckedChangeListener(null)
 //                mHolder.measurementInput.addTextChangedListener(null)
 
 
 
 
-                mHolder.time.text = item.time
-                mHolder.asleep.isChecked = item.asleep
-                mHolder.on.isChecked = item.on
-                mHolder.onWithTroublesome.isChecked = item.onWithTroublesome
-                mHolder.onWithoutTroublesome.isChecked = item.onWithoutTroublesome
-                mHolder.off.isChecked = item.off
-                mHolder.measurementInput.setText(item.measurement.toString())
-//                mHolder.measurementSlider.value = item.measurement
+        holder.time.text = item.time
+        holder.asleep.isChecked = item.asleep
+        holder.on.isChecked = item.on
+        holder.onWithTroublesome.isChecked = item.onWithTroublesome
+        holder.onWithoutTroublesome.isChecked = item.onWithoutTroublesome
+        holder.off.isChecked = item.off
+        holder.measurementInputSeekBar.progress = item.measurement
 
-//                mHolder.measurementSlider.addOnChangeListener { _, value, _ ->
-//                    item.measurement = value
-//                    list[position] = item
-//                }
-
-                if (item.asleep) {
-                    mHolder.measurementInput.setText("0")
-                    mHolder.measurementInput.isEnabled = false
-                } else {
-                    mHolder.measurementInput.isEnabled = true
-                }
-
-                val checkboxListener = View.OnClickListener {
-                    item.asleep = mHolder.asleep.isChecked
-                    item.on = mHolder.on.isChecked
-                    item.onWithTroublesome = mHolder.onWithTroublesome.isChecked
-                    item.onWithoutTroublesome = mHolder.onWithoutTroublesome.isChecked
-                    item.off = mHolder.off.isChecked
-
-                    if (it == mHolder.asleep) {
-                        item.on = false
-                        item.onWithTroublesome = false
-                        item.onWithoutTroublesome = false
-                        item.off = false
-                        item.measurement = 0
-                        mHolder.measurementInput.setText("0")
-                        mHolder.measurementInput.isEnabled = false
-                    } else {
-                        mHolder.measurementInput.isEnabled = true
-                        if (it == mHolder.on) {
-                            item.asleep = false
-                            item.onWithTroublesome = false
-                            item.onWithoutTroublesome = false
-                            item.off = false
-                        } else if (it == mHolder.onWithTroublesome) {
-                            item.asleep = false
-                            item.on = false
-                            item.onWithoutTroublesome = false
-                            item.off = false
-                        } else if (it == mHolder.onWithoutTroublesome) {
-                            item.asleep = false
-                            item.on = false
-                            item.onWithTroublesome = false
-                            item.off = false
-                        } else if (it == mHolder.off) {
-                            item.asleep = false
-                            item.on = false
-                            item.onWithTroublesome = false
-                            item.onWithoutTroublesome = false
-                        }
-                    }
-
-                    notifyItemChanged(position)
-                }
-
-                mHolder.asleep.setOnClickListener(checkboxListener)
-                mHolder.on.setOnClickListener(checkboxListener)
-                mHolder.onWithTroublesome.setOnClickListener(checkboxListener)
-                mHolder.onWithoutTroublesome.setOnClickListener(checkboxListener)
-                mHolder.off.setOnClickListener(checkboxListener)
-
-//                mHolder.asleep.setOnCheckedChangeListener { _, isChecked ->
-//                    item.asleep = isChecked
-//                    list[position] = item
-//                }
-//
-//                mHolder.on.setOnCheckedChangeListener { _, isChecked ->
-//                    item.on = isChecked
-//                    list[position] = item            }
-//
-//                mHolder.onWithTroublesome.setOnCheckedChangeListener { _, isChecked ->
-//                    item.onWithTroublesome = isChecked
-//                    list[position] = item            }
-//
-//                mHolder.onWithoutTroublesome.setOnCheckedChangeListener { _, isChecked ->
-//                    item.onWithoutTroublesome = isChecked
-//                    list[position] = item
-//                }
-//
-//                mHolder.off.setOnCheckedChangeListener { _, isChecked ->
-//                    item.off = isChecked
-//                    list[position] = item               }
-
-//                mHolder.measurementInput.addTextChangedListener (object : TextWatcher {
-//                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                        Log.d("DairyAdapter", "beforeTextChanged: $s")
-//                    }
-//
-//                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                        Log.d("DairyAdapter", "onTextChanged: $s")
-//                    }
-//
-//                    override fun afterTextChanged(s: Editable?) {
-//                        Log.d("DairyAdapter", "afterTextChanged: $s")
-////                        item.measurement = s.toString().toFloat()
-////                        item.measurement = s.toString().toFloatOrNull() ?: 0.0
-//                        val value = s.toString().toIntOrNull() ?: 0
-//                        if (value < 0 || value > 100) {
-//                            mHolder.measurementInputLayout.error = "Value must be between 0 and 100"
-//                        } else {
-//                            mHolder.measurementInputLayout.error = null
-//                        }
-//                        item.measurement = s.toString().toIntOrNull() ?: 0
-//                        list[position] = item
-//                    }
-//                })
-//            }
-            mHolder.measurementInput.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                    override fun afterTextChanged(s: Editable?) {
-                        val value = s.toString().toIntOrNull() ?: 0
-                        if (value < 0 || value > 100) {
-                            mHolder.measurementInputLayout.error = "Value must be between 0 and 100"
-                            mHolder.measurementInput.requestFocus()
-                            showAlertDialog(mHolder.itemView, "Input Error", "Value must be between 0 and 100")
-                        } else {
-                            mHolder.measurementInputLayout.error = null
-                        }
-                        item.measurement = value
-                        list[position] = item
-                    }
-                })
-            }
-            is DairyButtonModel -> {
-                val bHolder = holder as ButtonViewHolder
-                bHolder.button.setOnClickListener {
-                    //
-                }
-            }
+        if (item.asleep) {
+            holder.measurementInputSeekBar.progress = 0
+            holder.measurementInputSeekBar.isEnabled = false
+        } else {
+            holder.measurementInputSeekBar.isEnabled = true
         }
+
+        val checkboxListener = View.OnClickListener {
+            item.asleep = holder.asleep.isChecked
+            item.on = holder.on.isChecked
+            item.onWithTroublesome = holder.onWithTroublesome.isChecked
+            item.onWithoutTroublesome = holder.onWithoutTroublesome.isChecked
+            item.off = holder.off.isChecked
+            item.measurement = holder.measurementInputSeekBar.progress
+
+            if (it == holder.asleep) {
+                item.on = false
+                item.onWithTroublesome = false
+                item.onWithoutTroublesome = false
+                item.off = false
+                item.measurement = 0
+                holder.measurementInputSeekBar.progress = 0
+                holder.measurementInputSeekBar.isEnabled = false
+            } else {
+                holder.measurementInputSeekBar.isEnabled = true
+                if (it == holder.on) {
+                    item.asleep = false
+                    item.onWithTroublesome = false
+                    item.onWithoutTroublesome = false
+                    item.off = false
+                } else if (it == holder.onWithTroublesome) {
+                    item.asleep = false
+                    item.on = false
+                    item.onWithoutTroublesome = false
+                    item.off = false
+                } else if (it == holder.onWithoutTroublesome) {
+                    item.asleep = false
+                    item.on = false
+                    item.onWithTroublesome = false
+                    item.off = false
+                } else if (it == holder.off) {
+                    item.asleep = false
+                    item.on = false
+                    item.onWithTroublesome = false
+                    item.onWithoutTroublesome = false
+                }
+            }
+
+            notifyItemChanged(position)
+        }
+
+        holder.asleep.setOnClickListener(checkboxListener)
+        holder.on.setOnClickListener(checkboxListener)
+        holder.onWithTroublesome.setOnClickListener(checkboxListener)
+        holder.onWithoutTroublesome.setOnClickListener(checkboxListener)
+        holder.off.setOnClickListener(checkboxListener)
+
+    holder.measurementInputSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+            item.measurement = progress
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+    })
+
+
+
+//            is DairyButtonModel -> {
+//                val bHolder = holder as ButtonViewHolder
+//                bHolder.button.setOnClickListener {
+//                    val tempList = ArrayList<DairyModel>()
+//                    for (tempItem in list) {
+//                        if(tempItem is DairyModel)
+//                            tempList.add(tempItem)
+//                    }
+//                    saveCallback(tempList)
+//
+//                }
+//            }
+
 
     }
 
@@ -238,33 +173,12 @@ class DairyAdapter(private val list: MutableList<DairyListItem>) : RecyclerView.
         return list
     }
 
-    private fun showAlertDialog(view: View, title: String, message: String) {
-        AlertDialog.Builder(view.context)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
-    }
 //    private fun showAlertDialog(view: View, title: String, message: String) {
-//        val inflater = LayoutInflater.from(view.context)
-//        val dialogView = inflater.inflate(R.layout.dialog_alert, null)
-//
-//        val alertTitle = dialogView.findViewById<TextView>(R.id.alertTitle)
-//        val alertMessage = dialogView.findViewById<TextView>(R.id.alertMessage)
-//        val alertButton = dialogView.findViewById<Button>(R.id.alertButton)
-//
-//        alertTitle.text = title
-//        alertMessage.text = message
-//
-//        val dialog = AlertDialog.Builder(view.context)
-//            .setView(dialogView)
-//            .create()
-//
-//        alertButton.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//        dialog.show()
+//        AlertDialog.Builder(view.context)
+//            .setTitle(title)
+//            .setMessage(message)
+//            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+//            .show()
 //    }
 
 

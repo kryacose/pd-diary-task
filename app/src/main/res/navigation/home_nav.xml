@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/homeFragment2">
+
+    <fragment
+        android:id="@+id/dairyFragment2"
+        android:name="com.example.pddiary.fragments.DairyFragment"
+        android:label="DairyFragment" />
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.pddiary.fragments.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment2_to_dairyFragment2"
+            app:destination="@id/dairyFragment2" />
+    </fragment>
+</navigation>

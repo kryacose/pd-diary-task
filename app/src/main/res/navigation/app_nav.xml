@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav"
     app:startDestination="@id/homeFragment">
 
@@ -33,6 +34,17 @@
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"
         app:popUpTo="@id/profileFragment"
+        app:popUpToInclusive="false"/>
+
+    <fragment
+        android:id="@+id/prevDiaryFragment"
+        android:name="com.example.pddiary.fragments.PrevDiaryFragment"
+        android:label="prev_diary_fragment"
+        tools:layout="@layout/prev_diary_fragment" />
+    <action
+        android:id="@+id/action_global_prevDiaryFragment"
+        app:destination="@id/prevDiaryFragment"
+        app:popUpTo="@id/prevDiaryFragment"
         app:popUpToInclusive="false"/>
 
 

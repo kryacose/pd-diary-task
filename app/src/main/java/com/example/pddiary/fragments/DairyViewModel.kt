@@ -6,11 +6,11 @@ import com.example.pddiary.models.DairyButtonModel
 import com.example.pddiary.models.DairyListItem
 import com.example.pddiary.models.DairyModel
 import com.example.pddiary.models.HeaderModel
+import java.util.Date
 
 class DairyViewModel : ViewModel() {
-
-    private val list = mutableListOf(
-        HeaderModel(),
+    private val date = Date()
+    private val list = arrayListOf(
         DairyModel("12AM-12:30AM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
         DairyModel("12:30AM-1AM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
         DairyModel("1AM-1:30AM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
@@ -59,19 +59,18 @@ class DairyViewModel : ViewModel() {
         DairyModel("10:30PM-11PM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
         DairyModel("11PM-11:30PM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
         DairyModel("11:30PM-12AM", asleep = false, on = false, onWithTroublesome = false, onWithoutTroublesome = false, off = false, measurement = 0),
-        DairyButtonModel(),
     )
 
-    fun getDairyList(): MutableList<DairyListItem> {
+    fun getDairyList(): ArrayList<DairyModel> {
         return list
     }
 
-    fun saveDairyList(dairyList: List<DairyListItem>) {
-        list.clear()
-        Log.v("viewModel", "listReceived $dairyList")
-        list.addAll(dairyList)
-        Log.v("fragmentResumed", "listSaved" + list.size.toString() )
-    }
+//    fun saveDairyList(dairyList: List<DairyListItem>) {
+//        list.clear()
+//        Log.v("viewModel", "listReceived $dairyList")
+//        list.addAll(dairyList)
+//        Log.v("fragmentResumed", "listSaved" + list.size.toString() )
+//    }
 
 
 }
