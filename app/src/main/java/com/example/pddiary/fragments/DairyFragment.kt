@@ -1,6 +1,5 @@
 package com.example.pddiary.fragments
 
-import android.icu.text.DateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.widget.Button
 import android.widget.CalendarView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pddiary.MainActivity
 import com.example.pddiary.R
@@ -19,9 +17,8 @@ import com.example.pddiary.databinding.DairyFragmentBinding
 import com.example.pddiary.models.DairyModel
 import com.example.pddiary.models.DiaryEntry
 import java.time.LocalDate
-import java.util.Date
 
-class DairyFragment() : Fragment() {
+class DairyFragment : Fragment() {
 
     private lateinit var dairyBinding: DairyFragmentBinding
     private val binding: DairyFragmentBinding get() = dairyBinding
@@ -62,9 +59,6 @@ class DairyFragment() : Fragment() {
         fillDiaryEntry()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -73,11 +67,6 @@ class DairyFragment() : Fragment() {
         binding.dairyRecyclerview.adapter = adapter
     }
 
-    override fun onPause() {
-        val adapter = binding.dairyRecyclerview.adapter as DairyAdapter
-        val listToSave = adapter.getCurrentList()
-        super.onPause()
-    }
 
     private fun saveBtnCallback() {
         (activity as MainActivity).diaryData.addOrUpdateEntry(selectedDate, diaryEntry)

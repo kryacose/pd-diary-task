@@ -1,15 +1,12 @@
 package com.example.pddiary.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pddiary.R
-import com.example.pddiary.fragments.PrevDiaryFragment
 import java.time.LocalDate
-import java.util.Date
 
 class PrevDiaryAdapter(private val dates: ArrayList<LocalDate>, private val navigateToDiary: (LocalDate)->Unit) :
     RecyclerView.Adapter<PrevDiaryAdapter.MyViewHolder>() {

@@ -1,7 +1,6 @@
 package com.example.pddiary.adapter
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pddiary.R
 import com.example.pddiary.models.DairyListItem
 import com.example.pddiary.models.DairyModel
-import com.google.android.material.textfield.TextInputLayout
 
 
 class DairyAdapter(private val list: ArrayList<DairyModel>) : RecyclerView.Adapter<DairyAdapter.ItemViewHolder>() {
 
-//    companion object {
-//        val HEADER = 1
-//        val ROW = 2
-//        val BUTTON = 3
-//    }
-
-//    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//
-//    }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val time: TextView = itemView.findViewById(R.id.time)
@@ -36,21 +25,8 @@ class DairyAdapter(private val list: ArrayList<DairyModel>) : RecyclerView.Adapt
         val off: CheckBox = itemView.findViewById(R.id.off)
 //        val measurementSlider: Slider = itemView.findViewById(R.id.measurement_slider)
         val measurementInputSeekBar: SeekBar = itemView.findViewById((R.id.measurement_input_seek_bar))
-        val measurementInputLayout: TextInputLayout = itemView.findViewById(R.id.measurement_input_layout) // Added this line
     }
 
-//    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val button: Button = itemView.findViewById(R.id.dairy_save_button)
-//    }
-
-//    override fun getItemViewType(position: Int): Int {
-//        return when (list[position]) {
-//            is HeaderModel -> HEADER
-//            is DairyModel -> ROW
-//            is DairyButtonModel -> BUTTON
-//            else -> throw IllegalArgumentException("unsupported type is sent to dairyAdapter")
-//        }
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_dairy_row, parent, false))
@@ -173,13 +149,7 @@ class DairyAdapter(private val list: ArrayList<DairyModel>) : RecyclerView.Adapt
         return list
     }
 
-//    private fun showAlertDialog(view: View, title: String, message: String) {
-//        AlertDialog.Builder(view.context)
-//            .setTitle(title)
-//            .setMessage(message)
-//            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-//            .show()
-//    }
+
 
 
 }

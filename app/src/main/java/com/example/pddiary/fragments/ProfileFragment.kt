@@ -10,7 +10,6 @@ import com.example.pddiary.databinding.ProfileFragmentBinding
 class ProfileFragment : Fragment() {
 
     private lateinit var profileBinding: ProfileFragmentBinding
-    private val binding: ProfileFragmentBinding get() = profileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +20,4 @@ class ProfileFragment : Fragment() {
         return profileBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 }

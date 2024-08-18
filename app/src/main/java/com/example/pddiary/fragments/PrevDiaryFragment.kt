@@ -1,7 +1,6 @@
 package com.example.pddiary.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pddiary.MainActivity
 import com.example.pddiary.R
-import com.example.pddiary.adapter.DairyAdapter
 import com.example.pddiary.adapter.PrevDiaryAdapter
-import com.example.pddiary.databinding.HomeFragmentBinding
 import com.example.pddiary.databinding.PrevDiaryFragmentBinding
 import java.time.LocalDate
-import java.util.Date
 
 
 class PrevDiaryFragment : Fragment() {
@@ -49,8 +45,4 @@ class PrevDiaryFragment : Fragment() {
         binding.prevDiaryRecycler.adapter = adapter
     }
 
-    companion object {
-        fun newInstance() =
-            PrevDiaryFragment().apply {}
-    }
 }

@@ -1,15 +1,13 @@
 package com.example.pddiary.models
 
-import androidx.loader.content.Loader
 import java.time.LocalDate
-import java.util.Date
 
 
 class DiaryData {
-    private val dateToEntry : HashMap<LocalDate, DiaryEntry> = HashMap<LocalDate, DiaryEntry>()
+    private val dateToEntry : HashMap<LocalDate, DiaryEntry> = HashMap()
 
     fun addOrUpdateEntry(date : LocalDate, entry : ArrayList<DairyModel>) {
-        if(containsDate(date))
+        if(dateToEntry.contains(date))
             dateToEntry[date]?.update(entry)
         else
             dateToEntry[date] = DiaryEntry(entry)
@@ -27,8 +25,5 @@ class DiaryData {
         return ArrayList(dateToEntry.keys)
     }
 
-    fun numEntries():Int {
-        return dateToEntry.size
-    }
 
 }
